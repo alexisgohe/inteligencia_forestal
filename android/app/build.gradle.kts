@@ -8,7 +8,7 @@ android {
     namespace = "com.example.inteligencia_forestal"
 
     // Recomendado 2025: compileSdk y targetSdk = 34
-    compileSdk = 34
+    compileSdk = 36
     ndkVersion = flutter.ndkVersion
 
     // Java 17 – requerido por AGP moderno y más estable para Flutter

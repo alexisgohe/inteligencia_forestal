@@ -107,14 +107,14 @@ Configuración	            Valor
 ------------------------- ---------------------
 minSdkVersion	            23
 targetSdkVersion	        34
-compileSdkVersion	        34
+compileSdkVersion	        36
 Java / Kotlin JVM target	17
 
 ## ✔ Razones de esta configuración
 
 - minSdk 23: es la versión mínima segura para Flutter y mantiene compatibilidad con la mayoría de teléfonos.
 - targetSdk 34: requerido por Google Play en 2024–2025.
-- compileSdk 34: versión madura, estable y sin cambios rompientes.
+- compileSdk 36: versión madura, estable y sin cambios rompientes.
 - Java 17: recomendado por Google y utilizado por AGP moderno.
 
 ## ✔ Consideraciones para el desarrollo
