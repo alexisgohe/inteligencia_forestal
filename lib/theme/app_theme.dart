@@ -10,7 +10,7 @@ class AppTheme {
   // Forest Professional Color Palette - Optimized for outdoor visibility
   static const Color primaryLight = Color(0xFF2E7D32); // Forest green
   static const Color secondaryLight = Color(0xFF5D4037); // Earth brown
-  static const Color surfaceLight = Color(0xFAFAFA); // Clean background
+  static const Color surfaceLight = Color(0x00fafafa); // Clean background
   static const Color errorLight = Color(0xFFC62828); // High contrast red
   static const Color warningLight = Color(0xFFF57C00); // Amber warning
   static const Color successLight = Color(0xFF388E3C); // Confirmation green
@@ -88,7 +88,7 @@ class AppTheme {
 
     // AppBar theme - Forest green header
     appBarTheme: AppBarTheme(
-      color: primaryLight,
+      backgroundColor: primaryLight,
       foregroundColor: onPrimaryLight,
       elevation: 2.0,
       centerTitle: false,
@@ -417,7 +417,7 @@ class AppTheme {
     cardColor: cardDark,
     dividerColor: dividerDark,
     appBarTheme: AppBarTheme(
-      color: surfaceDark,
+      backgroundColor: surfaceDark,
       foregroundColor: onSurfaceDark,
       elevation: 2.0,
       centerTitle: false,

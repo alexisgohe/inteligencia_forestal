@@ -9,6 +9,8 @@ import './widgets/module_card_widget.dart';
 import './widgets/stats_dialog_widget.dart';
 import './widgets/welcome_message_widget.dart';
 
+import '/forms/gestion_forestal_form.dart';
+
 /// Main Menu Screen - Primary navigation hub for Intenigencia Forestal
 /// Provides access to Forest Management and Forest Health modules
 /// Optimized for field use with large touch targets and offline capabilities
@@ -112,13 +114,24 @@ class _MainMenuScreenState extends State<MainMenuScreen> {
 
   /// Navigate to Forest Management module
   void _navigateToForestManagement() {
-    Navigator.pushNamed(context, '/records-list-screen');
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => const GestionForestalForm(),
+      ),
+    );
   }
 
   /// Navigate to Forest Health module
-  void _navigateToForestHealth() {
-    Navigator.pushNamed(context, '/records-list-screen');
-  }
+void _navigateToForestHealth() {
+  ScaffoldMessenger.of(context).showSnackBar(
+    const SnackBar(
+      content: Text('Módulo en desarrollo'),
+      backgroundColor: Colors.orange,
+    ),
+  );
+  // Navigator.pushNamed(context, '/records-list-screen');
+}
 
   /// Navigate to settings
   void _navigateToSettings() {
@@ -176,8 +189,9 @@ class _MainMenuScreenState extends State<MainMenuScreen> {
                       'Registra inventarios de árboles con mediciones de diámetro, altura y cálculos automáticos de volumen.',
                   iconName: 'forest',
                   recordCount: _forestManagementRecords,
-                  lastEntryDate:
-                      _forestManagementRecords > 0 ? '03/12/2025' : null,
+                  lastEntryDate: _forestManagementRecords > 0
+                      ? '03/12/2025'
+                      : null,
                   onTap: _navigateToForestManagement,
                   onLongPress: () => _showModuleStats(
                     moduleTitle: 'Gestión Forestal',
