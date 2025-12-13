@@ -16,6 +16,12 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+  # Base de datos SQLite local
+  sqflite: ^2.3.0
+  path: ^1.8.3
+
+  #Formateo de fechas
+  intl: ^0.18.1
 
   # Detecta si hay conexión a Internet (WiFi, datos móviles, sin conexión)
   connectivity_plus: ^6.0.4

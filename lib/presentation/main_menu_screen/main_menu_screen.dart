@@ -113,11 +113,38 @@ class _MainMenuScreenState extends State<MainMenuScreen> {
   }
 
   /// Navigate to Forest Management module
-  void _navigateToForestManagement() {
-    Navigator.push(
-      context,
-      MaterialPageRoute(
-        builder: (context) => const GestionForestalForm(),
+void _navigateToForestManagement() {
+    // Mostrar un diálogo para elegir entre crear nuevo o ver lista
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: const Text('Gestión Forestal'),
+        content: const Text('¿Qué deseas hacer?'),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
+        actions: [
+          TextButton.icon(
+            onPressed: () {
+              Navigator.pop(context);
+              Navigator.pushNamed(context, AppRoutes.recordsList);
+            },
+            icon: const Icon(Icons.list),
+            label: const Text('Ver registros'),
+          ),
+          ElevatedButton.icon(
+            onPressed: () {
+              Navigator.pop(context);
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => const GestionForestalForm(),
+                ),
+              );
+            },
+            icon: const Icon(Icons.add),
+            label: const Text('Nuevo registro'),
+            style: ElevatedButton.styleFrom(backgroundColor: Colors.green[700]),
+          ),
+        ],
       ),
     );
   }

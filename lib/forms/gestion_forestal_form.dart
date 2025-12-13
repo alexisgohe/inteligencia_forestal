@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:sizer/sizer.dart';
+import '../models/registro_forestal.dart';
+import '../services/database_service.dart';
 
 class GestionForestalForm extends StatefulWidget {
   const GestionForestalForm({Key? key}) : super(key: key);
@@ -22,7 +24,7 @@ class _GestionForestalFormState extends State<GestionForestalForm> {
   final _areaBasalController = TextEditingController();
   final _volumenCilindroController = TextEditingController();
   
-  String? _estadoFitosanitario;
+  // String? _estadoFitosanitario;
   String? _dano;
   String? _vigorosidad;
 
@@ -79,9 +81,27 @@ class _GestionForestalFormState extends State<GestionForestalForm> {
     }
   }
 
-  void _guardarRegistro() {
-    if (_formKey.currentState!.validate()) {
-      // Aquí guardarías los datos
+  void _guardarRegistro() async {
+  if (_formKey.currentState!.validate()) {
+    try {
+      final registro = RegistroForestal(
+        numeroSitio: _numeroSitioController.text,
+        numeroArbol: _numeroArbolController.text,
+        especieNombreComun: _especieController.text,
+        diametroTocon: double.tryParse(_diametroToconController.text),
+        diametroNormal: double.parse(_diametroNormalController.text),
+        alturaTotal: double.parse(_alturaTotalController.text),
+        diametroCopa: double.tryParse(_diametroCopaController.text),
+        // estadoFitosanitario: _estadoFitosanitario, -- este se va a trabajar luego
+        dano: _dano,
+        vigorosidad: _vigorosidad,
+        areaBasal: double.parse(_areaBasalController.text),
+        volumenCilindro: double.parse(_volumenCilindroController.text),
+        fechaRegistro: DateTime.now(),
+      );
+
+      await DatabaseService.instance.insertarRegistro(registro);
+
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Row(
@@ -98,11 +118,18 @@ class _GestionForestalFormState extends State<GestionForestalForm> {
           ),
         ),
       );
-      
-      // Regresar a la pantalla anterior
-      Navigator.pop(context);
+
+      Navigator.pop(context, true);
+    } catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('Error al guardar: $e'),
+          backgroundColor: Colors.red[700],
+        ),
+      );
     }
   }
+}
 
   @override
   Widget build(BuildContext context) {
@@ -241,14 +268,14 @@ class _GestionForestalFormState extends State<GestionForestalForm> {
                 isNumber: true,
               ),
 
-              _buildDropdown(
-                value: _estadoFitosanitario,
-                label: 'Estado fitosanitario',
-                hint: 'Seleccionar...',
-                icon: Icons.health_and_safety,
-                items: ['Sano', 'Enfermo', 'Plagado', 'Muerto'],
-                onChanged: (value) => setState(() => _estadoFitosanitario = value),
-              ),
+              // _buildDropdown(
+              //   value: _estadoFitosanitario,
+              //   label: 'Estado fitosanitario',
+              //   hint: 'Seleccionar...',
+              //   icon: Icons.health_and_safety,
+              //   items: ['Sano', 'Enfermo', 'Plagado', 'Muerto'],
+              //   onChanged: (value) => setState(() => _estadoFitosanitario = value),
+              // ),
 
               _buildDropdown(
                 value: _dano,
