@@ -10,6 +10,7 @@ import './widgets/stats_dialog_widget.dart';
 import './widgets/welcome_message_widget.dart';
 
 import '/forms/gestion_forestal_form.dart';
+import '/services/database_service.dart';
 
 /// Main Menu Screen - Primary navigation hub for Intenigencia Forestal
 /// Provides access to Forest Management and Forest Health modules
@@ -34,15 +35,31 @@ class _MainMenuScreenState extends State<MainMenuScreen> {
     _loadRecordCounts();
   }
 
-  /// Load record counts from local database (simulated)
-  Future<void> _loadRecordCounts() async {
-    // Simulate database query
-    await Future.delayed(const Duration(milliseconds: 500));
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    // Recargar conteos cada vez que la pantalla vuelve a ser visible
+    _loadRecordCounts();
+  }
+
+  /// Load record counts from local database
+Future<void> _loadRecordCounts() async {
+  try {
+    // Consultar el número real de registros desde la base de datos
+    final count = await DatabaseService.instance.contarRegistros();
+    
+    setState(() {
+      _forestManagementRecords = count;
+      _forestHealthRecords = 0; 
+    });
+  } catch (e) {
+    print('Error al cargar conteo de registros: $e');
     setState(() {
       _forestManagementRecords = 0;
       _forestHealthRecords = 0;
     });
   }
+}
 
   /// Refresh record counts and sync status
   Future<void> _refreshData() async {
@@ -112,8 +129,8 @@ class _MainMenuScreenState extends State<MainMenuScreen> {
     );
   }
 
-  /// Navigate to Forest Management module
-void _navigateToForestManagement() {
+/// Navigate to Forest Management module
+  void _navigateToForestManagement() async {
     // Mostrar un diálogo para elegir entre crear nuevo o ver lista
     showDialog(
       context: context,
@@ -123,22 +140,39 @@ void _navigateToForestManagement() {
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
         actions: [
           TextButton.icon(
-            onPressed: () {
-              Navigator.pop(context);
-              Navigator.pushNamed(context, AppRoutes.recordsList);
+            onPressed: () async {
+              Navigator.pop(context); 
+
+              // Ir a la lista y esperar el resultado
+              final result = await Navigator.pushNamed(
+                context,
+                AppRoutes.recordsList,
+              );
+
+              // Recargar conteos cuando regrese
+              if (result == true || result == null) {
+                _loadRecordCounts();
+              }
             },
             icon: const Icon(Icons.list),
             label: const Text('Ver registros'),
           ),
           ElevatedButton.icon(
-            onPressed: () {
-              Navigator.pop(context);
-              Navigator.push(
+            onPressed: () async {
+              Navigator.pop(context); // Cerrar el diálogo
+
+              // Ir al formulario y esperar el resultado
+              final result = await Navigator.push(
                 context,
                 MaterialPageRoute(
                   builder: (context) => const GestionForestalForm(),
                 ),
               );
+
+              // Recargar conteos cuando regrese
+              if (result == true) {
+                _loadRecordCounts();
+              }
             },
             icon: const Icon(Icons.add),
             label: const Text('Nuevo registro'),

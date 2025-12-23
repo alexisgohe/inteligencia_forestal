@@ -42,50 +42,84 @@ class _ListaRegistrosScreenState extends State<ListaRegistrosScreen> {
   }
 
   Future<void> _eliminarRegistro(int id, String especieNombre) async {
-    final confirmar = await showDialog<bool>(
-      context: context,
-      builder: (context) => AlertDialog(
-        title: const Text('Confirmar eliminación'),
-        content: Text('¿Estás seguro de eliminar el registro de "$especieNombre"?'),
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(15),
-        ),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.pop(context, false),
-            child: const Text('Cancelar'),
-          ),
-          ElevatedButton(
-            onPressed: () => Navigator.pop(context, true),
-            style: ElevatedButton.styleFrom(
-              backgroundColor: Colors.red[700],
-            ),
-            child: const Text('Eliminar'),
-          ),
-        ],
+  final confirmar = await showDialog<bool>(
+    context: context,
+    builder: (context) => AlertDialog(
+      title: const Text('Confirmar eliminación'),
+      content: Text('¿Estás seguro de eliminar el registro de "$especieNombre"?'),
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(15),
       ),
-    );
+      actions: [
+        TextButton(
+          onPressed: () => Navigator.pop(context, false),
+          child: const Text('Cancelar'),
+        ),
+        ElevatedButton(
+          onPressed: () => Navigator.pop(context, true),
+          style: ElevatedButton.styleFrom(
+            backgroundColor: Colors.red[700],
+          ),
+          child: const Text('Eliminar'),
+        ),
+      ],
+    ),
+  );
 
-    if (confirmar == true) {
-      try {
-        await DatabaseService.instance.eliminarRegistro(id);
+  if (confirmar == true) {
+    try {
+      await DatabaseService.instance.eliminarRegistro(id);
+      
+      if (mounted) {  // Verificar que el widget siga montado
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-            content: const Text('Registro eliminado'),
+            content: Row(
+              children: const [
+                Icon(Icons.check_circle, color: Colors.white),
+                SizedBox(width: 10),
+                Text(
+                  'Registro eliminado',
+                  style: TextStyle(color: Colors.white),  // ← Color explícito
+                ), 
+              ],
+            ),
             backgroundColor: Colors.green[700],
+            behavior: SnackBarBehavior.floating,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(10),
+            ),
           ),
         );
-        _cargarRegistros();
-      } catch (e) {
+      }
+      
+      _cargarRegistros();
+    } catch (e) {
+      if (mounted) {  // Verificar que el widget siga montado
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-            content: Text('Error al eliminar: $e'),
+            content: Row(
+              children: [
+                const Icon(Icons.error, color: Colors.white),
+                const SizedBox(width: 10),
+                Expanded(
+                  child: Text(
+                    'Error al eliminar: $e',
+                    style: const TextStyle(color: Colors.white),  // ← Color explícito
+                  ),
+                ),
+              ],
+            ),
             backgroundColor: Colors.red[700],
+            behavior: SnackBarBehavior.floating,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(10),
+            ),
           ),
         );
       }
     }
   }
+}
 
   void _verDetalles(RegistroForestal registro) {
     showModalBottomSheet(

@@ -120,6 +120,8 @@ class _GestionForestalFormState extends State<GestionForestalForm> {
       );
 
       Navigator.pop(context, true);
+      // Marcar que hubo cambios
+        // setState(() {});
     } catch (e) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
