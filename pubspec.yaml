@@ -20,11 +20,17 @@ dependencies:
   sqflite: ^2.3.0
   path: ^1.8.3
 
+  # Generación de identificadores únicos universales
+  uuid: ^4.5.1
+
   #Formateo de fechas
   intl: ^0.18.1
 
   # Detecta si hay conexión a Internet (WiFi, datos móviles, sin conexión)
   connectivity_plus: ^6.0.4
+
+  # Peticiones HTTP
+  http: ^1.2.0
 
   # Permite usar tipografías de Google fácilmente (Roboto, Montserrat, etc.)
   google_fonts: ^6.2.1

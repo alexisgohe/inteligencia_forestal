@@ -28,7 +28,7 @@ class DatabaseService {
   Future _createDB(Database db, int version) async {
     await db.execute('''
       CREATE TABLE registros_forestales (
-        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        id TEXT PRIMARY KEY,
         numeroSitio TEXT NOT NULL,
         numeroArbol TEXT NOT NULL,
         especieNombreComun TEXT NOT NULL,
@@ -40,9 +40,22 @@ class DatabaseService {
         vigorosidad TEXT,
         areaBasal REAL NOT NULL,
         volumenCilindro REAL NOT NULL,
-        fechaRegistro TEXT NOT NULL
+        fechaRegistro TEXT NOT NULL,
+        esSincronizado INTEGER DEFAULT 0
       )
     ''');
+  }
+
+  Future<List<RegistroForestal>> obtenerNoSincronizados() async {
+    final db = await database;
+    final result = await db.query('registros_forestales', where: 'esSincronizado = 0');
+    return result.map((map) => RegistroForestal.fromMap(map)).toList();
+  }
+
+  Future<void> marcarComoSincronizados(List<String> ids) async {
+    final db = await database;
+    await db.update('registros_forestales', {'esSincronizado': 1},
+        where: 'id IN (${ids.map((id) => "'$id'").join(', ')})');
   }
 
   Future<int> insertarRegistro(RegistroForestal registro) async {
@@ -62,7 +75,7 @@ class DatabaseService {
     return Sqflite.firstIntValue(result) ?? 0;
   }
 
-  Future<int> eliminarRegistro(int id) async {
+  Future<int> eliminarRegistro(String id) async {
     final db = await database;
     return await db.delete(
       'registros_forestales',

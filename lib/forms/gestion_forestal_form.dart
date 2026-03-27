@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:uuid/uuid.dart';
 import 'package:sizer/sizer.dart';
 import '../models/registro_forestal.dart';
 import '../services/database_service.dart';
@@ -85,6 +86,7 @@ class _GestionForestalFormState extends State<GestionForestalForm> {
   if (_formKey.currentState!.validate()) {
     try {
       final registro = RegistroForestal(
+        id: const Uuid().v4(),
         numeroSitio: _numeroSitioController.text,
         numeroArbol: _numeroArbolController.text,
         especieNombreComun: _especieController.text,

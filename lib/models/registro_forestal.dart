@@ -1,5 +1,7 @@
+import 'dart:convert';
+
 class RegistroForestal {
-  final int? id;
+  final String id; // UUID generado en Flutter
   final String numeroSitio;
   final String numeroArbol;
   final String especieNombreComun;
@@ -7,7 +9,6 @@ class RegistroForestal {
   final double diametroNormal;
   final double alturaTotal;
   final double? diametroCopa;
-  // final String? estadoFitosanitario;
   final String? dano;
   final String? vigorosidad;
   final double areaBasal;
@@ -15,7 +16,7 @@ class RegistroForestal {
   final DateTime fechaRegistro;
 
   RegistroForestal({
-    this.id,
+    required this.id,
     required this.numeroSitio,
     required this.numeroArbol,
     required this.especieNombreComun,
@@ -23,7 +24,6 @@ class RegistroForestal {
     required this.diametroNormal,
     required this.alturaTotal,
     this.diametroCopa,
-    // this.estadoFitosanitario,
     this.dano,
     this.vigorosidad,
     required this.areaBasal,
@@ -31,6 +31,7 @@ class RegistroForestal {
     required this.fechaRegistro,
   });
 
+  // Para insertar en SQLite
   Map<String, dynamic> toMap() {
     return {
       'id': id,
@@ -41,7 +42,6 @@ class RegistroForestal {
       'diametroNormal': diametroNormal,
       'alturaTotal': alturaTotal,
       'diametroCopa': diametroCopa,
-      // 'estadoFitosanitario': estadoFitosanitario,
       'dano': dano,
       'vigorosidad': vigorosidad,
       'areaBasal': areaBasal,
@@ -50,21 +50,23 @@ class RegistroForestal {
     };
   }
 
+  // Para enviar al Backend (JSON)
+  Map<String, dynamic> toJson() => toMap();
+
   factory RegistroForestal.fromMap(Map<String, dynamic> map) {
     return RegistroForestal(
       id: map['id'],
       numeroSitio: map['numeroSitio'],
       numeroArbol: map['numeroArbol'],
       especieNombreComun: map['especieNombreComun'],
-      diametroTocon: map['diametroTocon'],
-      diametroNormal: map['diametroNormal'],
-      alturaTotal: map['alturaTotal'],
-      diametroCopa: map['diametroCopa'],
-      // estadoFitosanitario: map['estadoFitosanitario'],
+      diametroTocon: map['diametroTocon']?.toDouble(),
+      diametroNormal: map['diametroNormal'].toDouble(),
+      alturaTotal: map['alturaTotal'].toDouble(),
+      diametroCopa: map['diametroCopa']?.toDouble(),
       dano: map['dano'],
       vigorosidad: map['vigorosidad'],
-      areaBasal: map['areaBasal'],
-      volumenCilindro: map['volumenCilindro'],
+      areaBasal: map['areaBasal'].toDouble(),
+      volumenCilindro: map['volumenCilindro'].toDouble(),
       fechaRegistro: DateTime.parse(map['fechaRegistro']),
     );
   }

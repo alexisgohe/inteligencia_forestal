@@ -11,6 +11,7 @@ import './widgets/welcome_message_widget.dart';
 
 import '/forms/gestion_forestal_form.dart';
 import '/services/database_service.dart';
+import '/services/sync_service.dart';
 
 /// Main Menu Screen - Primary navigation hub for Intenigencia Forestal
 /// Provides access to Forest Management and Forest Health modules
@@ -32,6 +33,7 @@ class _MainMenuScreenState extends State<MainMenuScreen> {
   @override
   void initState() {
     super.initState();
+    SyncService().initAutoSync(); // Iniciar escucha automática de red
     _loadRecordCounts();
   }
 
@@ -99,15 +101,23 @@ Future<void> _loadRecordCounts() async {
   }
 
   /// Handle sync action
-  void _handleSync() {
-    Fluttertoast.showToast(
-      msg: _isSynced ? "Datos sincronizados" : "Sincronizando datos...",
-      toastLength: Toast.LENGTH_SHORT,
-      gravity: ToastGravity.BOTTOM,
-    );
+  Future<void> _handleSync() async {
+    setState(() => _isSynced = false);
+    
+    final success = await SyncService().sincronizarConBackend();
 
-    if (!_isSynced) {
+    if (success) {
+      Fluttertoast.showToast(
+        msg: "Sincronización completada con éxito",
+        backgroundColor: Colors.green,
+      );
       setState(() => _isSynced = true);
+    } else {
+      Fluttertoast.showToast(
+        msg: "No se pudo sincronizar. Verifique su conexión.",
+        backgroundColor: Colors.red,
+      );
+      setState(() => _isSynced = false);
     }
   }
 

@@ -75,32 +75,52 @@ class ActionBarWidget extends StatelessWidget {
               ),
             ),
             SizedBox(width: 3.w),
-            Container(
-              height: 8.h,
-              width: 15.w,
-              decoration: BoxDecoration(
-                color: isSynced
-                    ? theme.colorScheme.primary.withValues(alpha: 0.1)
-                    : theme.colorScheme.error.withValues(alpha: 0.1),
-                borderRadius: BorderRadius.circular(4.0),
-                border: Border.all(
+            Expanded(
+              child: OutlinedButton.icon(
+                onPressed: onSyncTap,
+                icon: CustomIconWidget(
+                  iconName: isSynced ? 'cloud_done' : 'sync',
                   color: isSynced
                       ? theme.colorScheme.primary
                       : theme.colorScheme.error,
-                  width: 1,
+                  size: 5.w,
                 ),
-              ),
-              child: InkWell(
-                onTap: onSyncTap,
-                borderRadius: BorderRadius.circular(4.0),
-                child: Center(
-                  child: CustomIconWidget(
-                    iconName: isSynced ? 'cloud_done' : 'cloud_off',
+                label: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      isSynced ? 'Sincronizado' : 'Sincronizar',
+                      style: theme.textTheme.labelLarge?.copyWith(
+                        fontSize: 12.sp,
+                        color: isSynced
+                            ? theme.colorScheme.primary
+                            : theme.colorScheme.error,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    Text(
+                      isSynced ? 'Al día' : 'Pendiente',
+                      style: theme.textTheme.bodySmall?.copyWith(
+                        fontSize: 9.sp,
+                        color: isSynced
+                            ? theme.colorScheme.primary.withValues(alpha: 0.7)
+                            : theme.colorScheme.error.withValues(alpha: 0.7),
+                      ),
+                    ),
+                  ],
+                ),
+                style: OutlinedButton.styleFrom(
+                  minimumSize: Size(double.infinity, 8.h),
+                  padding: EdgeInsets.symmetric(horizontal: 2.w),
+                  side: BorderSide(
                     color: isSynced
                         ? theme.colorScheme.primary
                         : theme.colorScheme.error,
-                    size: 7.w,
                   ),
+                  backgroundColor: isSynced
+                      ? theme.colorScheme.primary.withValues(alpha: 0.05)
+                      : theme.colorScheme.error.withValues(alpha: 0.05),
                 ),
               ),
             ),

@@ -41,7 +41,7 @@ class _ListaRegistrosScreenState extends State<ListaRegistrosScreen> {
     }
   }
 
-  Future<void> _eliminarRegistro(int id, String especieNombre) async {
+  Future<void> _eliminarRegistro(String id, String especieNombre) async {
   final confirmar = await showDialog<bool>(
     context: context,
     builder: (context) => AlertDialog(
@@ -473,7 +473,7 @@ class _ListaRegistrosScreenState extends State<ListaRegistrosScreen> {
                   ),
                   IconButton(
                     onPressed: () => _eliminarRegistro(
-                      registro.id!,
+                      registro.id,
                       registro.especieNombreComun,
                     ),
                     icon: Icon(Icons.delete, color: Colors.red[400]),
