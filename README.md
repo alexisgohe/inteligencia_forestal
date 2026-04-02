@@ -95,7 +95,7 @@ La compilación usa una configuración estable y recomendada para proyectos Flut
 
 ## ✔ Compatibilidad con dispositivos
 
-- Versión mínima soportada: Android 6.0 (API 23)
+- Versión mínima soportada: Android 7.0 (API 24)
 - Garantiza compatibilidad con más del 95% de los dispositivos activos.
 - Ideal para equipos que quieren estabilidad sin limitarse a APIs antiguas.
 
@@ -105,7 +105,7 @@ El proyecto utiliza valores fijos (no dependientes de la versión de Flutter) pa
 
 Configuración	            Valor
 ------------------------- ---------------------
-minSdkVersion	            23
+minSdkVersion	            24
 targetSdkVersion	        34
 compileSdkVersion	        36
 Java / Kotlin JVM target	17

@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <!-- Este es el componente que maneja toda la lógica de la cámara AR -->
+    <fragment
+        android:id="@+id/arFragment"
+        android:name="com.google.ar.sceneform.ux.ArFragment"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+    <!-- Overlay para la interfaz de usuario -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_gravity="bottom"
+        android:padding="16dp"
+        android:background="#80000000"> <!-- Fondo semitransparente -->
+
+        <TextView
+            android:id="@+id/instructionTextView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Escanee el entorno para comenzar..."
+            android:textColor="@android:color/white"
+            android:textSize="18sp"
+            android:textAlignment="center"
+            android:layout_marginBottom="16dp"/>
+
+        <Button
+            android:id="@+id/placePointAButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Colocar Punto A"
+            android:backgroundTint="@android:color/holo_blue_light"
+            android:textColor="@android:color/white"
+            android:layout_marginBottom="8dp"/>
+
+        <Button
+            android:id="@+id/placePointBButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Colocar Punto B"
+            android:backgroundTint="@android:color/holo_purple"
+            android:textColor="@android:color/white"
+            android:visibility="gone"/> <!-- Inicialmente oculto -->
+
+        <!-- Botones de Confirmar/Repetir/Cancelar -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center"
+            android:layout_marginTop="16dp">
+
+            <Button android:id="@+id/cancelButton" android:layout_width="0dp" android:layout_weight="1" android:layout_height="wrap_content" android:text="Cancelar" android:backgroundTint="@android:color/darker_gray" android:textColor="@android:color/white" android:layout_marginEnd="8dp"/>
+            <Button android:id="@+id/resetButton" android:layout_width="0dp" android:layout_weight="1" android:layout_height="wrap_content" android:text="Repetir" android:backgroundTint="@android:color/holo_orange_dark" android:textColor="@android:color/white" android:layout_marginStart="8dp" android:layout_marginEnd="8dp"/>
+            <Button android:id="@+id/confirmButton" android:layout_width="0dp" android:layout_weight="1" android:layout_height="wrap_content" android:text="Confirmar" android:backgroundTint="@android:color/holo_green_dark" android:textColor="@android:color/white" android:layout_marginStart="8dp"/>
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <!-- Crosshair en el centro de la pantalla -->
+    <ImageView
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_gravity="center"
+        android:src="@drawable/ic_crosshair"
+        android:tint="@android:color/white"
+        android:alpha="0.7"/>
+</FrameLayout>

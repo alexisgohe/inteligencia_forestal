@@ -53,6 +53,13 @@ dependencies:
   # Notificaciones tipo “toast” en Android/iOS
   fluttertoast: ^8.2.2
 
+  # Realidad Aumentada (ARCore & ARKit)
+  ar_flutter_plugin:
+    path: ./plugins/ar_flutter_plugin
+
+  # Cálculos matemáticos para vectores y posiciones
+  vector_math: ^2.1.4
+
 # -------------------------------
 # DEPENDENCIAS PARA DESARROLLO
 # -------------------------------

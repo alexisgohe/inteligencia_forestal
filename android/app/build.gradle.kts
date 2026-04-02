@@ -24,8 +24,8 @@ android {
     defaultConfig {
         applicationId = "com.example.inteligencia_forestal"
 
-        // Compatibilidad amplia (Android 6+)
-        minSdk = flutter.minSdkVersion
+        // Compatibilidad amplia (Android 7+)
+        minSdk = 24
 
         // Meta Play Store 2024–2025
         targetSdk = 34
@@ -43,4 +43,14 @@ android {
 
 flutter {
     source = "../.."
+}
+
+dependencies {
+    implementation("androidx.appcompat:appcompat:1.7.0")
+    implementation("androidx.core:core-ktx:1.13.1")
+
+    // Librerías esenciales para Realidad Aumentada
+    implementation("com.google.ar:core:1.43.0")
+    implementation("com.google.ar.sceneform.ux:sceneform-ux:1.17.1")
+    implementation("com.google.ar.sceneform:core:1.17.1")
 }

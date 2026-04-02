@@ -3,6 +3,7 @@ import 'package:uuid/uuid.dart';
 import 'package:sizer/sizer.dart';
 import '../models/registro_forestal.dart';
 import '../services/database_service.dart';
+import '../routes/app_routes.dart';
 
 class GestionForestalForm extends StatefulWidget {
   const GestionForestalForm({Key? key}) : super(key: key);
@@ -135,6 +136,25 @@ class _GestionForestalFormState extends State<GestionForestalForm> {
   }
 }
 
+  // Navegar a la medición AR y recibir el resultado
+  void _navegarAMedicionAR(String modo) async {
+    final resultado = await Navigator.pushNamed(
+      context,
+      AppRoutes.cameraMeasurement,
+      arguments: modo,
+    );
+
+    if (resultado != null && resultado is double) {
+      setState(() {
+        if (modo == 'diametro') {
+          _diametroNormalController.text = resultado.toStringAsFixed(2);
+        } else if (modo == 'altura') {
+          _alturaTotalController.text = resultado.toStringAsFixed(2);
+        }
+      });
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
@@ -147,6 +167,36 @@ class _GestionForestalFormState extends State<GestionForestalForm> {
         ),
         // backgroundColor: theme.scaffoldBackgroundColor,
         elevation: 0,
+        actions: [
+          PopupMenuButton<String>(
+            onSelected: _navegarAMedicionAR,
+            icon: const Icon(Icons.camera_enhance),
+            tooltip: 'Mediciones con AR',
+            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+            itemBuilder: (context) => [
+              PopupMenuItem(
+                value: 'diametro',
+                child: Row(
+                  children: [
+                    Icon(Icons.straighten, color: Colors.green[700]),
+                    const SizedBox(width: 10),
+                    const Text('Medir diámetro'),
+                  ],
+                ),
+              ),
+              PopupMenuItem(
+                value: 'altura',
+                child: Row(
+                  children: [
+                    Icon(Icons.height, color: Colors.green[700]),
+                    const SizedBox(width: 10),
+                    const Text('Medir altura'),
+                  ],
+                ),
+              ),
+            ],
+          ),
+        ],
       ),
       body: SingleChildScrollView(
         padding: EdgeInsets.all(4.w),
